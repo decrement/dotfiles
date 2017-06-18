@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+
+#
+# Bootstrapping
+#
+
+# fresh: bundler for dotfiles
+fresh freshshell/fresh bin/fresh --bin
+
+#
+# Shell
+#
+
+# dircolors: colorized ls
+#fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dir_colors
+fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolorsrc
+
+# fish: the friendly interactive shell, for humans
+fresh-options --file=~/.config/fish/config.fish --marker
+    fresh config/fish/config.fish
+    fresh config/fish/aliases.fish
+    fresh config/fish/colors.fish
+fresh-options
+for function in ~/.dotfiles/config/fish/functions/*.fish; do
+    fresh config/fish/functions/"$(basename "$function")" --file=~/.config/fish/functions/"$(basename "$function")"
+done
+
+# fisherman: package manager for fish
+fresh config/fish/fishfile --file=~/.config/fish/fishfile
+
+# fzf: universal fuzzy finder
+#fresh scripts/fzfurl --bin
+
+#
+# Editing
+#
+
+# neovim: vim improved
+fresh scripts/vimprofile --bin
+for config in ~/.dotfiles/config/neovim/*.vim; do
+    fresh config/neovim/"$(basename "$config")" --file=~/.config/nvim/"$(basename "$config")"
+done
+fresh junegunn/vim-plug plug.vim --file=~/.config/nvim/autoload/plug.vim
+
+# nyaovim: electron gui for neovim
+fresh config/nyaovimrc.html --file=~/.config/nyaovim/nyaovimrc.html
+
+#
+# Compilers
+#
+
+# clang: llvm c front-end
+#fresh scripts/clang-flags-native --bin
+
+# gcc: gnu compiler collection
+#fresh scripts/gcc-flags-native --bin
+
+#
+# Graphical
+#
+
+# redshift: screen tinter
+#fresh config/redshift.conf --file=~/.config/redshift.conf
+
+#
+# Utilities
+#
+
+# 24bit: check a terminal for true color support
+fresh scripts/24bit --bin
+
+# format-udf: format a block device (hard drive or flash drive) in UDF
+fresh JElchison/format-udf format-udf.sh --bin
+
+# gdbinit: gdbinit for OS X, iOS and others - x86, x86_64 and ARM
+fresh gdbinit/Gdbinit gdbinit --file
+
+# git: the stupid content tracker
+fresh-options --file=~/.config/git/config --marker
+    fresh config/git/config
+    fresh config/git/aliases
+    fresh config/git/colors
+fresh-options
+fresh config/git/attributes --file=~/.config/git/attributes
+fresh config/git/ignore --file=~/.config/git/ignore
+fresh config/git/template --file=~/.config/git/template/
+
+# gibo: gitignore boilerplates
+fresh simonwhitaker/gitignore-boilerplates gibo --bin
+fresh simonwhitaker/gitignore-boilerplates gibo-completion.fish --file=~/.config/fish/completions/gibo-completion.fish
+
+# gnupg: the gnu privacy guard
+#fresh scripts/pinentry --bin
+#fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
+#fresh config/gnupg/gpg-agent.conf --filter="sed s#HOME#$HOME#" --file=~/.gnupg/gpg-agent.conf
+#fresh config/gnupg/dirmngr.conf --file=~/.gnupg/dirmngr.conf
+#fresh config/gnupg/sks-keyservers.netCA.pem --file=~/.gnupg/sks-keyservers.netCA.pem
+
+# htop: interactive process monitor
+fresh config/htoprc --file=~/.config/htop/htoprc
+
+# pyenv: python version manager
+#fresh scripts/pyenv-install --bin
+
+# rbenv: ruby version manager
+#fresh scripts/rbenv-install --bin
+#fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
+
+# speedtest-cli: testing internet bandwidth using speedtest.net
+fresh sivel/speedtest-cli speedtest_cli.py --bin=~/bin/speedtest
+
+# solarized: 
+fresh altercation/solarized apple-colorpalette-solarized/solarized.clr --file=~/Library/Colors/solarized.clr
+
+# tmux: terminal multiplexer
+fresh-options --file=~/.tmux.conf --marker
+    fresh config/tmux/main.conf
+    fresh config/tmux/statusline.conf
+    if [[ "$(uname)" == "Darwin" ]]; then
+        fresh config/tmux/osx.conf
+    elif [[ "$(uname)" == "Linux" ]]; then
+        fresh config/tmux/linux.conf
+    fi
+    fresh altercation/solarized tmux/tmuxcolors-dark.conf
+fresh-options
+fresh junegunn/dotfiles bin/tmuxwords.rb --bin
+
+fresh_after_build () {
+    curl -sLo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
+    chmod +w ~/.fresh/build/config-fish-fishfile
+    
+    # for MacVim
+    ln -sf ~/.config/nvim ~/.vim
+    ln -sf ~/.config/nvim/init.vim ~/.vimrc
+    
+    # for SmartGit
+    ln -sf ~/.config/git/config ~/.gitconfig
+    ln -sf ~/.config/git/ignore ~/.gitignore
+}
+
+# vi:ft=sh:

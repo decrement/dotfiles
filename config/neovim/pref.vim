@@ -14,7 +14,9 @@ execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 set colorcolumn=+1 " Highlight the wrapping column.
 
 " Font
-set guifont=Source\ Code\ Pro\ 10 " Use my font of choice.
+if has("gui_macvim")
+  set guifont=Source\ Code\ Pro:h12 " Use my font of choice.
+endif
 set guioptions=ai " Hide all GUI widgets.
 
 " Status

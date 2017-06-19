@@ -48,7 +48,7 @@ test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/conf
 
 # Startup
 
-set -e fish_greeting # shut up
+set fish_greeting # shut up
 
 if [ (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]')) = "mosh-server" ]
   set --global --export MOSH 1

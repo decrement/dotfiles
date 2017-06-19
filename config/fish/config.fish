@@ -9,10 +9,12 @@ set --global --export XDG_CONFIG_HOME $HOME/.config
 set --global --export TMP /tmp
 set --global --export PATH \
   $HOME/bin \
-  $PATH
-#  /usr/local/{,s}bin \
-#  /usr/{,s}bin \
-#  /{,s}bin
+  /usr/local/{,s}bin \
+  /usr/{,s}bin \
+  /{,s}bin
+
+test -d /Library/TeX/texbin; and set --global --export PATH $PATH /Library/TeX/texbin # osx
+test -d /opt/X11/bin; and set --global --export PATH $PATH /opt/X11/bin # osx
 
 set --global --export EDITOR nvim
 #set --global --export BROWSER google-chrome-stable

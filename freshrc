@@ -12,7 +12,6 @@ fresh freshshell/fresh bin/fresh --bin
 #
 
 # dircolors: colorized ls
-#fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dir_colors
 fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolorsrc
 
 # fish: the friendly interactive shell, for humans
@@ -40,7 +39,7 @@ fresh scripts/vimprofile --bin
 for config in ~/.dotfiles/config/neovim/*.vim; do
     fresh config/neovim/"$(basename "$config")" --file=~/.config/nvim/"$(basename "$config")"
 done
-fresh junegunn/vim-plug plug.vim --file=~/.config/nvim/autoload/plug.vim
+fresh k-takata/minpac . --file=~/.config/nvim/pack/minpac/opt/minpac/
 
 # nyaovim: electron gui for neovim
 fresh config/nyaovimrc.html --file=~/.config/nyaovim/nyaovimrc.html

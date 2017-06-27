@@ -17,7 +17,7 @@ test -d /Library/TeX/texbin; and set --global --export PATH $PATH /Library/TeX/t
 test -d /opt/X11/bin; and set --global --export PATH $PATH /opt/X11/bin # osx
 
 set --global --export EDITOR nvim
-#set --global --export BROWSER google-chrome-stable
+set --global --export BROWSER google-chrome
 set --global --export LESS -R
 
 #set --global --export FZF_TMUX 1

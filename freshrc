@@ -135,7 +135,8 @@ fresh_after_build () {
     
     # for SmartGit
     ln -sf ~/.config/git/config ~/.gitconfig
-    ln -sf ~/.config/git/ignore ~/.gitignore
+
+    tic ~/.dotfiles/tmux-256color.terminfo
 }
 
 # vi:ft=sh:
